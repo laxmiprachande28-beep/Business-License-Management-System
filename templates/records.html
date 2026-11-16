@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} | LicensePortal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">L</div>
+            <div>
+                <h2>LicensePortal</h2>
+                <p>Business Management</p>
+            </div>
+        </div>
+
+        <p class="menu-heading">MAIN MENU</p>
+
+        <a href="{{ url_for('index') }}" class="nav-link">▦ Dashboard</a>
+        <a href="{{ url_for('register') }}" class="nav-link">♙ Applicant Registration</a>
+        <a href="{{ url_for('business_application') }}" class="nav-link">▤ Business Application</a>
+        <a href="{{ url_for('applications') }}" class="nav-link">▣ Applications</a>
+        <a href="{{ url_for('licenses') }}" class="nav-link">▧ License Management</a>
+        <a href="{{ url_for('payments') }}" class="nav-link">₹ Payments</a>
+        <a href="{{ url_for('renewals') }}" class="nav-link">⟳ Renewals</a>
+        <a href="{{ url_for('view_records') }}" class="nav-link">☰ View Records</a>
+
+        <div class="sidebar-bottom">
+            <div class="admin-avatar">A</div>
+            <div>
+                <strong>Administrator</strong>
+                <p>System Manager</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h3>{{ title }}</h3>
+                <p>Business License Management System</p>
+            </div>
+
+            <div class="topbar-right">
+                <span class="date">{{ today }}</span>
+                <div class="profile-circle">A</div>
+            </div>
+        </header>
+
+        <section class="welcome-section">
+            <div>
+                <h1>{{ title }}</h1>
+                <p>View and manage records stored in the database.</p>
+            </div>
+
+            <a href="{{ url_for('index') }}" class="secondary-btn">← Dashboard</a>
+        </section>
+
+        <div class="table-card">
+
+            <table>
+                <thead>
+                    <tr>
+                    {% for column in columns %}
+                        <th>{{ column.replace("_", " ").title() }}</th>
+                    {% endfor %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for record in records %}
+                    <tr>
+                    {% for column in columns %}
+                        <td>
+                            {% if column in record %}
+                                {{ record[column] }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="{{ columns|length }}" class="empty-message">
+                            No records found.
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+        <footer>
+            © 2026 LicensePortal. All rights reserved. Built with Flask & MongoDB.
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>

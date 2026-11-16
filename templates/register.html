@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicant Registration | Business License Management</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6fb;
+            color: #263247;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #17243a;
+            color: white;
+            padding: 28px 18px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 38px;
+            line-height: 1.5;
+        }
+
+        .brand span {
+            color: #65a9ff;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #91a0b7;
+            text-transform: uppercase;
+            margin: 25px 12px 12px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 13px 14px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #29476d;
+            color: white;
+        }
+
+        .main {
+            flex: 1;
+            padding: 35px 45px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            gap: 15px;
+        }
+
+        .topbar h1 {
+            font-size: 27px;
+            color: #17243a;
+        }
+
+        .date {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .form-card {
+            background: white;
+            max-width: 850px;
+            padding: 32px;
+            border-radius: 14px;
+            box-shadow: 0 5px 25px rgba(20, 35, 60, 0.06);
+        }
+
+        .form-heading {
+            border-bottom: 1px solid #e8edf4;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-heading h3 {
+            font-size: 19px;
+            margin-bottom: 7px;
+        }
+
+        .form-heading p {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 9px;
+            color: #344258;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #dce3ed;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            background: #fff;
+            color: #263247;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #367edb;
+            box-shadow: 0 0 0 3px rgba(54, 126, 219, 0.10);
+        }
+
+        textarea {
+            min-height: 95px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        button {
+            padding: 13px 23px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background: #2468c5;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #1856a8;
+        }
+
+        .reset-btn {
+            background: #edf1f6;
+            color: #344258;
+        }
+
+        .flash {
+            padding: 14px 17px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .flash.success {
+            background: #e6f7ed;
+            color: #167344;
+            border: 1px solid #bce8cd;
+        }
+
+        .flash.error {
+            background: #fff0f0;
+            color: #b42318;
+            border: 1px solid #f4c7c7;
+        }
+
+        .required {
+            color: #d33;
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            BUSINESS<br>
+            <span>LICENSE PORTAL</span>
+        </div>
+
+        <div class="menu-title">Main Menu</div>
+
+        <a href="{{ url_for('index') }}">Dashboard</a>
+        <a href="{{ url_for('register') }}" class="active">Applicant Registration</a>
+        <a href="{{ url_for('business_application') }}">Business Application</a>
+        <a href="{{ url_for('applications') }}">Applications</a>
+
+        <div class="menu-title">Management</div>
+
+        <a href="{{ url_for('licenses') }}">License Management</a>
+        <a href="{{ url_for('payments') }}">Payments</a>
+        <a href="{{ url_for('renewals') }}">Renewals</a>
+        <a href="{{ url_for('view_records') }}">View Records</a>
+
+    </aside>
+
+
+    <main class="main">
+
+        <div class="topbar">
+            <h1>Applicant Registration</h1>
+
+            <div class="date">
+                {{ today if today else "Business License Portal" }}
+            </div>
+        </div>
+
+
+        <div class="welcome">
+            <h2>Register New Applicant</h2>
+            <p>Enter the applicant details below to create a new registration record.</p>
+        </div>
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+        <div class="form-card">
+
+            <div class="form-heading">
+                <h3>Applicant Information</h3>
+                <p>All fields marked with * are required.</p>
+            </div>
+
+
+            <form action="{{ url_for('register') }}" method="POST">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="name">Full Name <span class="required">*</span></label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter full name"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="example@email.com"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            placeholder="Enter phone number"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="applicant_type">Applicant Type <span class="required">*</span></label>
+
+                        <select id="applicant_type" name="applicant_type" required>
+                            <option value="">Select applicant type</option>
+                            <option value="Individual">Individual</option>
+                            <option value="Business Owner">Business Owner</option>
+                            <option value="Partnership">Partnership</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group full">
+                        <label for="address">Address <span class="required">*</span></label>
+                        <textarea
+                            id="address"
+                            name="address"
+                            placeholder="Enter complete address"
+                            required
+                        ></textarea>
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="reset" class="reset-btn">
+                        Clear Form
+                    </button>
+
+                    <button type="submit" class="submit-btn">
+                        Register Applicant
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

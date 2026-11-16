@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LicensePortal | Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">L</div>
+            <div>
+                <h2>LicensePortal</h2>
+                <p>Business Management</p>
+            </div>
+        </div>
+
+        <p class="menu-heading">MAIN MENU</p>
+
+        <a href="{{ url_for('index') }}" class="nav-link active">
+            <span>▦</span> Dashboard
+        </a>
+
+        <a href="{{ url_for('register') }}" class="nav-link">
+            <span>♙</span> Applicant Registration
+        </a>
+
+        <a href="{{ url_for('business_application') }}" class="nav-link">
+            <span>▤</span> Business Application
+        </a>
+
+        <a href="{{ url_for('applications') }}" class="nav-link">
+            <span>▣</span> Applications
+        </a>
+
+        <a href="{{ url_for('licenses') }}" class="nav-link">
+            <span>▧</span> License Management
+        </a>
+
+        <a href="{{ url_for('payments') }}" class="nav-link">
+            <span>₹</span> Payments
+        </a>
+
+        <a href="{{ url_for('renewals') }}" class="nav-link">
+            <span>⟳</span> Renewals
+        </a>
+
+        <a href="{{ url_for('view_records') }}" class="nav-link">
+            <span>☰</span> View Records
+        </a>
+
+        <div class="sidebar-bottom">
+            <div class="admin-avatar">A</div>
+            <div>
+                <strong>Administrator</strong>
+                <p>System Manager</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h3>Dashboard</h3>
+                <p>Business License Management System</p>
+            </div>
+
+            <div class="topbar-right">
+                <span class="date">{{ today }}</span>
+                <div class="profile-circle">A</div>
+            </div>
+        </header>
+
+        <section class="welcome-section">
+            <div>
+                <h1>LicenseHub</h1> 
+                <p>Here's an overview of your business license management system.</p>
+            </div>
+
+            <a href="{{ url_for('register') }}" class="primary-btn">
+                + Register Applicant
+            </a>
+        </section>
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon blue">♙</div>
+                <p>Total Applicants</p>
+                <h2>{{ applicant_count }}</h2>
+                <span class="stat-note">Registered applicants</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon purple">▤</div>
+                <p>Total Applications</p>
+                <h2>{{ application_count }}</h2>
+                <span class="stat-note">Business applications</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">▧</div>
+                <p>Total Licenses</p>
+                <h2>{{ license_count }}</h2>
+                <span class="stat-note">Issued licenses</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon orange">₹</div>
+                <p>Total Payments</p>
+                <h2>{{ payment_count }}</h2>
+                <span class="stat-note">Payment records</span>
+            </div>
+
+        </section>
+
+        <section class="section">
+            <div class="section-heading">
+                <div>
+                    <h2>Quick Access</h2>
+                    <p>Navigate to different system modules</p>
+                </div>
+            </div>
+
+            <div class="quick-grid">
+
+                <a href="{{ url_for('register') }}" class="quick-card">
+                    <div class="quick-icon blue">♙</div>
+                    <h3>Applicant Registration</h3>
+                    <p>Register a new applicant in the system.</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="{{ url_for('business_application') }}" class="quick-card">
+                    <div class="quick-icon purple">▤</div>
+                    <h3>Business Application</h3>
+                    <p>Submit a new business license application.</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="{{ url_for('applications') }}" class="quick-card">
+                    <div class="quick-icon cyan">▣</div>
+                    <h3>Applications</h3>
+                    <p>View submitted business applications.</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="{{ url_for('licenses') }}" class="quick-card">
+                    <div class="quick-icon green">▧</div>
+                    <h3>License Management</h3>
+                    <p>View and manage issued licenses.</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="{{ url_for('payments') }}" class="quick-card">
+                    <div class="quick-icon orange">₹</div>
+                    <h3>Payments</h3>
+                    <p>View business license payment records.</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="{{ url_for('renewals') }}" class="quick-card">
+                    <div class="quick-icon pink">⟳</div>
+                    <h3>Renewals</h3>
+                    <p>Manage license renewal requests.</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+            </div>
+        </section>
+
+        <section class="bottom-grid">
+
+            <div class="table-card">
+                <div class="section-heading">
+                    <h2>Recent Applicants</h2>
+                    <a href="{{ url_for('applicants') }}" class="view-link">View All →</a>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Applicant Name</th>
+                            <th>Email</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for applicant in recent_applicants %}
+                        <tr>
+                            <td>{{ applicant.name }}</td>
+                            <td>{{ applicant.email }}</td>
+                            <td><span class="status-badge">{{ applicant.applicant_type }}</span></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="empty-message">No applicants registered yet.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-card">
+                <div class="section-heading">
+                    <h2>Recent Applications</h2>
+                    <a href="{{ url_for('applications') }}" class="view-link">View All →</a>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Business Name</th>
+                            <th>Application Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for application in recent_applications %}
+                        <tr>
+                            <td>{{ application.business_name }}</td>
+                            <td>{{ application.business_type }}</td>
+                            <td><span class="status-badge">{{ application.status }}</span></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="empty-message">No applications submitted yet.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <footer>
+            © 2026 LicensePortal. All rights reserved. Built with Flask & MongoDB.
+        </footer>
+
+    </main>
+</div>
+
+</body>
+</html>

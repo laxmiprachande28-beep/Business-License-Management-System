@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Business Applications</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6fb;
+            padding: 30px;
+            color: #263247;
+        }
+        h1 { color: #17243a; }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background: #17243a;
+            color: white;
+        }
+        tr:nth-child(even) { background: #f4f6fb; }
+        a { color: #2468c5; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<h1>Business Applications</h1>
+<p><a href="{{ url_for('index') }}">Back to Dashboard</a></p>
+
+<div class="card">
+    <h3>Total Applications: {{ records|length }}</h3>
+
+    {% if records %}
+    <table>
+        <tr>
+            <th>Applicant Name</th>
+            <th>Email</th>
+            <th>Business Name</th>
+            <th>Business Type</th>
+            <th>Business Address</th>
+            <th>Status</th>
+            <th>Application Date</th>
+        </tr>
+
+        {% for record in records %}
+        <tr>
+            <td>{{ record.get('applicant_name', '') }}</td>
+            <td>{{ record.get('applicant_email', '') }}</td>
+            <td>{{ record.get('business_name', '') }}</td>
+            <td>{{ record.get('business_type', '') }}</td>
+            <td>{{ record.get('business_address', '') }}</td>
+            <td>{{ record.get('status', '') }}</td>
+            <td>{{ record.get('application_date', '') }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No business applications found. Submit a business application first.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>

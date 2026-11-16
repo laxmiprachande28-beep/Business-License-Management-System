@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Management</title>
+    <style>
+        * { box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { margin: 0; background: #f4f6fb; color: #263247; }
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 245px; background: #17243a; padding: 28px 18px; }
+        .brand { color: white; font-size: 21px; font-weight: bold; margin-bottom: 35px; }
+        .brand span { color: #65a9ff; }
+        .sidebar a { display: block; padding: 13px; color: #cbd5e1; text-decoration: none; border-radius: 8px; margin-bottom: 6px; font-size: 14px; }
+        .sidebar a:hover, .sidebar a.active { background: #29476d; color: white; }
+        .main { flex: 1; padding: 40px; }
+        h1 { color: #17243a; margin-top: 0; }
+        .subtitle { color: #718096; }
+        .card { background: white; max-width: 750px; padding: 30px; margin-top: 25px; border-radius: 12px; box-shadow: 0 5px 25px #14233c0d; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .field { display: flex; flex-direction: column; }
+        .full { grid-column: 1 / -1; }
+        label { font-size: 13px; font-weight: bold; margin-bottom: 9px; }
+        input, select { padding: 13px; border: 1px solid #dce3ed; border-radius: 8px; font-size: 14px; }
+        button { margin-top: 25px; padding: 14px 24px; background: #2468c5; color: white; border: 0; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .flash { padding: 13px; margin-top: 15px; border-radius: 8px; }
+        .success { background: #e6f7ed; color: #167344; }
+        .error { background: #fff0f0; color: #b42318; }
+        @media(max-width:700px) { .layout { flex-direction: column; } .sidebar { width: 100%; } .main { padding: 20px; } .grid { grid-template-columns: 1fr; } .full { grid-column: auto; } }
+    </style>
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <div class="brand">BUSINESS<br><span>LICENSE PORTAL</span></div>
+        <a href="{{ url_for('index') }}">Dashboard</a>
+        <a href="{{ url_for('register') }}">Applicant Registration</a>
+        <a href="{{ url_for('business_application') }}">Business Application</a>
+        <a href="{{ url_for('applications') }}">Applications</a>
+        <a href="{{ url_for('licenses') }}">License Management</a>
+        <a href="{{ url_for('payments') }}" class="active">Payments</a>
+        <a href="{{ url_for('renewals') }}">Renewals</a>
+        <a href="{{ url_for('view_records') }}">View Records</a>
+    </aside>
+
+    <main class="main">
+        <h1>Payment Management</h1>
+        <p class="subtitle">Record business license application payments.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <div class="card">
+            <h3>Add Payment Record</h3>
+            <form method="POST" action="{{ url_for('payments') }}">
+                <div class="grid">
+                    <div class="field">
+                        <label>Applicant Email *</label>
+                        <input type="email" name="applicant_email" required placeholder="Registered email">
+                    </div>
+                    <div class="field">
+                        <label>Business Name *</label>
+                        <input type="text" name="business_name" required placeholder="Business name">
+                    </div>
+                    <div class="field">
+                        <label>Payment Amount (₹) *</label>
+                        <input type="number" name="amount" min="1" step="0.01" required placeholder="Enter amount">
+                    </div>
+                    <div class="field">
+                        <label>Payment Method *</label>
+                        <select name="payment_method" required>
+                            <option value="">Select method</option>
+                            <option>UPI</option>
+                            <option>Cash</option>
+                            <option>Credit Card</option>
+                            <option>Debit Card</option>
+                            <option>Bank Transfer</option>
+                        </select>
+                    </div>
+                    <div class="field full">
+                        <label>Payment Status *</label>
+                        <select name="payment_status" required>
+                            <option value="Paid">Paid</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit">Save Payment</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

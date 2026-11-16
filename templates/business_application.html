@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Business Application</title>
+    <style>
+        * { box-sizing: border-box; font-family: Arial; }
+        body { margin: 0; background: #f4f6fb; color: #263247; }
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 245px; background: #17243a; padding: 28px 18px; }
+        .brand { color: white; font-size: 21px; font-weight: bold; margin-bottom: 35px; }
+        .brand span { color: #65a9ff; }
+        .sidebar a { display: block; padding: 13px; color: #cbd5e1; text-decoration: none; border-radius: 8px; margin-bottom: 6px; font-size: 14px; }
+        .sidebar a:hover { background: #29476d; color: white; }
+        .main { flex: 1; padding: 40px; }
+        .card { background: white; max-width: 850px; padding: 30px; border-radius: 12px; margin-top: 25px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-weight: bold; font-size: 13px; margin-bottom: 9px; }
+        input, select, textarea { padding: 13px; border: 1px solid #dce3ed; border-radius: 8px; font-size: 14px; }
+        textarea { min-height: 90px; resize: vertical; }
+        button { margin-top: 25px; padding: 14px 24px; background: #2468c5; color: white; border: 0; border-radius: 8px; cursor: pointer; }
+        .flash { padding: 13px; margin: 15px 0; border-radius: 8px; }
+        .success { background: #e6f7ed; color: #167344; }
+        .error { background: #fff0f0; color: #b42318; }
+        @media(max-width:700px) {
+            .layout { flex-direction: column; }
+            .sidebar { width: 100%; }
+            .main { padding: 20px; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="brand">BUSINESS<br><span>LICENSE PORTAL</span></div>
+        <a href="{{ url_for('index') }}">Dashboard</a>
+        <a href="{{ url_for('register') }}">Applicant Registration</a>
+        <a href="{{ url_for('business_application') }}">Business Application</a>
+        <a href="{{ url_for('applications') }}">Applications</a>
+        <a href="{{ url_for('licenses') }}">License Management</a>
+        <a href="{{ url_for('payments') }}">Payments</a>
+        <a href="{{ url_for('renewals') }}">Renewals</a>
+        <a href="{{ url_for('view_records') }}">View Records</a>
+        <a href="{{ url_for('admin_login') }}">Administrator Login</a>
+    </aside>
+
+    <main class="main">
+        <h1>Business Application</h1>
+        <p>Submit your business details for license registration.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <div class="card">
+            <h2>New Business Application</h2>
+
+            <form method="POST" action="{{ url_for('business_application') }}">
+                <div class="grid">
+                    <div class="field">
+                        <label>Applicant Email *</label>
+                        <input type="email" name="applicant_email" required placeholder="Registered applicant email">
+                    </div>
+
+                    <div class="field">
+                        <label>Business Name *</label>
+                        <input type="text" name="business_name" required placeholder="Enter business name">
+                    </div>
+
+                    <div class="field">
+                        <label>Business Type *</label>
+                        <select name="business_type" required>
+                            <option value="">Select business type</option>
+                            <option>Retail</option>
+                            <option>Manufacturing</option>
+                            <option>Food and Restaurant</option>
+                            <option>Service</option>
+                            <option>Wholesale</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Business Address *</label>
+                        <textarea name="business_address" required placeholder="Enter complete business address"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit">Submit Application</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

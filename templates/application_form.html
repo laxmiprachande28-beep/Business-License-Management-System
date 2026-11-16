@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Submit Business License Application</h1>
+<form method="POST" class="form-card">
+<label>Applicant
+<select name="applicant_id" required>
+<option value="">Select applicant</option>
+{% for a in applicants %}
+<option value="{{ a._id }}">{{ a.name }} — {{ a.email }}</option>
+{% endfor %}
+</select>
+</label>
+<label>Business Name<input name="business_name" required></label>
+<label>License Type
+<select name="license_type" required>
+<option value="Shop License">Shop License</option>
+<option value="Food License">Food License</option>
+<option value="Trade License">Trade License</option>
+<option value="Professional License">Professional License</option>
+</select>
+</label>
+<button class="button" type="submit">Submit Application</button>
+</form>
+{% endblock %}
